@@ -2,6 +2,11 @@
 
 This project implements a Model Context Protocol (MCP) server to interact with MySQL databases. It allows executing SQL queries directly through MCP-compatible clients (such as Trae or Claude Desktop).
 
+**Author:** Pedro Leão (Senior Fullstack Developer)  
+- **GitHub:** [@pleaodev](https://github.com/pleaodev)  
+- **Portfolio:** [https://www.pedro-sperandio.com.br/](https://www.pedro-sperandio.com.br/)  
+- **Email:** pleao.dev@gmail.com
+
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) installed.
