@@ -4,27 +4,27 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 import mysql from "mysql2/promise";
 
-// CONFIGURAÇÃO DIRETA (Para eliminar erro de variável de ambiente)
+// CONFIGURAÇÃO VIA VARIÁVEIS DE AMBIENTE
 const dbConfig = {
-  host: "127.0.0.1", // Força IPv4
-  port: 3310,
-  user: "savana_audio",
-  password: process.env.DB_PASSWORD || "Rk202020@#$", // Pega do env ou usa o fixo se falhar
-  database: "savana_audio"
+  host: process.env.DB_HOST || "localhost",
+  port: process.env.DB_PORT || 3306,
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 };
 
 const server = new Server(
-  { name: "savana-local", version: "1.0.0" },
+  { name: "mysql-mcp-server", version: "1.0.0" },
   { capabilities: { tools: {} } }
 );
 
-// Ferramenta 1: Listar tabelas (para teste rápido)
+// Ferramenta: Listar ferramentas
 server.setRequestHandler(ListToolsRequestSchema, async () => {
-  console.error("LOG: O Trae pediu a lista de ferramentas.");
+  console.error("LOG: Cliente MCP pediu a lista de ferramentas.");
   return {
     tools: [{
       name: "query",
-      description: "Executa qualquer SQL no banco Savana Audio",
+      description: "Executa qualquer SQL no banco de dados configurado",
       inputSchema: {
         type: "object",
         properties: { sql: { type: "string" } },
@@ -62,4 +62,4 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
 const transport = new StdioServerTransport();
 await server.connect(transport);
-console.error("LOG: Servidor MCP Savana Iniciado e aguardando...");
+console.error("LOG: Servidor MCP MySQL Iniciado e aguardando...");
